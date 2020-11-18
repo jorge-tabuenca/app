@@ -1,19 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_curs"
         android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:title="@string/title_curs" />
 
     <item
-        android:id="@+id/navigation_dashboard"
+        android:id="@+id/navigation_perfil"
         android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:title="@string/title_perfil" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_lliga"
         android:icon="@drawable/ic_notifications_black_24dp"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_lliga" />
+    <item
+        android:id="@+id/navigation_botiga"
+        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:title="Botiga" />
 
 </menu>
