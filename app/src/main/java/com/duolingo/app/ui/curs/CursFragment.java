@@ -23,7 +23,7 @@ public class CursFragment extends Fragment {
         cursViewModel =
                 ViewModelProviders.of(this).get(CursViewModel.class);
         View root = inflater.inflate(R.layout.fragment_curs, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
+        final TextView textView = root.findViewById(R.id.text_curs);
         cursViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {

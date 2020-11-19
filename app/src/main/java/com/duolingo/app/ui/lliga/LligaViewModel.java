@@ -10,7 +10,7 @@ public class LligaViewModel extends ViewModel {
 
     public LligaViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is notifications fragment");
+        mText.setValue("This is lliga fragment");
     }
 
     public LiveData<String> getText() {

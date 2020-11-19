@@ -23,7 +23,7 @@ public class LligaFragment extends Fragment {
         lligaViewModel =
                 ViewModelProviders.of(this).get(LligaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_lliga, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
+        final TextView textView = root.findViewById(R.id.text_lliga);
         lligaViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
