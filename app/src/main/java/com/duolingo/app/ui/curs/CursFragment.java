@@ -6,24 +6,30 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import com.duolingo.app.R;
-import java.util.ArrayList;
+import com.duolingo.app.adapters.CategoriesAdapter;
 
+import java.util.ArrayList;
 
 public class CursFragment extends Fragment {
 
+    ListView listView;
+    //mockup del content
+    String mkCategorie[] = {"Comida", "viajes", "Transporte", "Salud", "Vestir", "Entretenimiento"};
+    String mkSubCategorie[] = {"3/14", "12/34", "22/32", "0/13", "5/23", "3/42"};
+
     static final ArrayList<String> listSelectedCourses = new ArrayList<String>();
+
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
         View view;
         view = inflater.inflate(R.layout.fragment_curs, container, false);
-
-        // ArrayList donde se guardan los cursos donde el usuario se ha inscrito, el usuario se inscribe
-        // unicamente seleccionando el curso en el Spinner spnTotalCourses.
 
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
@@ -36,12 +42,11 @@ public class CursFragment extends Fragment {
         // Spinner con todos los cursos disponibles (Cuando haya que utilizar la BBDD en vez de
         // usar ArrayAdapter, habra que usar ClickAdapater [Esta en la guía oficial])
 
-        final Spinner spnTotalCourses = (Spinner) view.findViewById(R.id.spnTotalCourses);
+        final Spinner spnTotalCourses  = (Spinner) view.findViewById(R.id.spnTotalCourses);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
                 R.array.mkArraySpiner, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spnTotalCourses.setAdapter(adapter);
-
+        spnTotalCourses .setAdapter(adapter);
 
         // Listener al seleccionar un ITEM en el Spinner spnTotalCourses
         spnTotalCourses.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -81,6 +86,13 @@ public class CursFragment extends Fragment {
 
             }
         });
+
+        //---------ListView Code------------
+
+        listView = (ListView) view.findViewById(R.id.listViewCategories);
+
+        CategoriesAdapter categoriesAdapter = new CategoriesAdapter (getActivity().getApplicationContext(), mkCategorie, mkSubCategorie);
+        listView.setAdapter(categoriesAdapter);
 
         return view;
     };
