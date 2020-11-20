@@ -15,6 +15,8 @@ import java.util.ArrayList;
 
 public class CursFragment extends Fragment {
 
+    static final ArrayList<String> listSelectedCourses = new ArrayList<String>();
+
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
         View view;
@@ -23,13 +25,13 @@ public class CursFragment extends Fragment {
         // ArrayList donde se guardan los cursos donde el usuario se ha inscrito, el usuario se inscribe
         // unicamente seleccionando el curso en el Spinner spnTotalCourses.
 
-        final int[] mkSelectedCourses = new int[getResources().getStringArray(R.array.mkArraySpiner).length];
-        final ArrayList<String> listSelectedCourses = new ArrayList<String>();
-        listSelectedCourses.add("Cursos començats..."); // Primer mensaje (hasta implementar el Adapter)
-
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
         final Spinner spnSelectedCourses = (Spinner) view.findViewById(R.id.spnSelectedCourses);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                android.R.layout.simple_spinner_item, listSelectedCourses);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spnSelectedCourses.setAdapter(adapter2);
 
         // Spinner con todos los cursos disponibles (Cuando haya que utilizar la BBDD en vez de
         // usar ArrayAdapter, habra que usar ClickAdapater [Esta en la guía oficial])
@@ -50,23 +52,27 @@ public class CursFragment extends Fragment {
                 TextView tv = (TextView)spnTotalCourses.getSelectedView();
                 String item = tv.getText().toString();
 
-                if (!(position == 0)){
-                    if (!(mkSelectedCourses[position] >= 1)){
-                        // Si es la primera vez que se selecciona el curso, este se añade al ArrayList
-                        // donde se guardan los cursos donde se ha inscrito el usuario
-                        listSelectedCourses.add(item);
-                        mkSelectedCourses[position]++;
-
-                        // Se crea el adapter para el Spinnner spnSelectedCourses, este se irá creando
-                        // cada vez que se añada un nuevo curso, sirve para actualizar el contenido
-                        // de dicho Spinner
-
-                        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
-                                android.R.layout.simple_spinner_item, listSelectedCourses);
-                        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spnSelectedCourses.setAdapter(adapter2);
-
+                // Checkea si el item se ha repetido
+                boolean repeated = false;
+                for (String s: listSelectedCourses){
+                    if (s.equals(item)){
+                        repeated = true;
                     }
+                }
+
+                if (!repeated){
+                    // Si es la primera vez que se selecciona el curso, este se añade al ArrayList
+                    // donde se guardan los cursos donde se ha inscrito el usuario
+                    listSelectedCourses.add(item);
+
+                    // Se crea el adapter para el Spinnner spnSelectedCourses, este se irá creando
+                    // cada vez que se añada un nuevo curso, sirve para actualizar el contenido
+                    // de dicho Spinner
+
+                    ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
+                            android.R.layout.simple_spinner_item, listSelectedCourses);
+                    adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    spnSelectedCourses.setAdapter(adapter2);
                 }
             }
 
