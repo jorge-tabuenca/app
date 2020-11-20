@@ -7,10 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
-
-
 import androidx.fragment.app.Fragment;
-
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 
@@ -43,6 +40,4 @@ public class CursFragment extends Fragment {
 
         return view;
     };
-
-
-    }
+}
