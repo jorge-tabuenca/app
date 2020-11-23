@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="mkArraySpiner">
+        <item>Cursos disponibles...</item>
         <item>Castellano</item>
         <item>Catalan</item>
         <item>Ingles</item>
