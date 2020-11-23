@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/movie_id"
+    android:clickable="true"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:layout_width="150dp"
+    android:layout_height="175dp"
+    android:layout_margin="5dp"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardElevation="0dp">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <RelativeLayout
+            android:layout_gravity="center"
+            android:layout_width="150dp"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/category_icon"/>
+
+            <ImageView
+                android:id="@+id/rIvIcon"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/ic_notifications_black_24dp">
+
+            </ImageView>
+
+            <ImageView
+                android:id="@+id/rIvCrown"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/crown_icon"
+                android:layout_below="@+id/rIvIcon"
+                android:layout_marginTop="-35dp"
+                android:layout_marginLeft="100dp">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/rTvLevel"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/rIvCrown"
+                android:layout_marginLeft="100dp"
+                android:layout_marginTop="-30dp"
+                android:gravity="center"
+                android:text="1" />
+
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_gravity="center"
+            android:id="@+id/rTvTitle"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:text="Patata"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

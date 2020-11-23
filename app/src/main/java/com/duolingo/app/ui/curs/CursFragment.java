@@ -10,8 +10,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
+import com.duolingo.app.models.Category;
+
 import java.util.ArrayList;
 
 public class CursFragment extends Fragment {
@@ -86,11 +92,30 @@ public class CursFragment extends Fragment {
 
         //---------ListView Code------------
 
-        listView = (ListView) view.findViewById(R.id.listViewCategories);
 
-        CategoriesAdapter categoriesAdapter = new CategoriesAdapter (getActivity().getApplicationContext(), mkCategorie, mkSubCategorie);
-        listView.setAdapter(categoriesAdapter);
-      
+        ArrayList<Category> mkCategories = new ArrayList<Category>();
+        mkCategories.add(new Category("Patatas", "1"));
+        mkCategories.add(new Category("Verduras", "5"));
+        mkCategories.add(new Category("Cochecitos", "3"));
+        mkCategories.add(new Category("Marcs", "0"));
+        mkCategories.add(new Category("Pablitos", "4"));
+
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
+        CategoriesAdapter listAdapter = new CategoriesAdapter(mkCategories, getActivity().getApplicationContext());
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, true);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 2, GridLayoutManager.VERTICAL, false);
+        gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+
+            public int getSpanSize(int position){
+                return (position%3==0? 2:1);
+            }
+
+        });
+
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setAdapter(listAdapter);
+
         return view;
     };
 }
