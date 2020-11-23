@@ -9,11 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
-
 import java.util.ArrayList;
 
 public class CursFragment extends Fragment {
@@ -24,7 +22,6 @@ public class CursFragment extends Fragment {
     String mkSubCategorie[] = {"3/14", "12/34", "22/32", "0/13", "5/23", "3/42"};
 
     static final ArrayList<String> listSelectedCourses = new ArrayList<String>();
-
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
@@ -93,7 +90,7 @@ public class CursFragment extends Fragment {
 
         CategoriesAdapter categoriesAdapter = new CategoriesAdapter (getActivity().getApplicationContext(), mkCategorie, mkSubCategorie);
         listView.setAdapter(categoriesAdapter);
-
+      
         return view;
     };
 }
