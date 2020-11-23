@@ -1,4 +1,4 @@
-package com.duolingo.app.ui.dashboard;
+package com.duolingo.app.ui.perfil;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.duolingo.app.R;
 
-public class DashboardFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private PerfilViewModel perfilViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        perfilViewModel =
+                ViewModelProviders.of(this).get(PerfilViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_perfil, container, false);
+        final TextView textView = root.findViewById(R.id.text_perfil);
+        perfilViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
