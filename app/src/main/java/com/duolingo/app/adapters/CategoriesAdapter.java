@@ -1,47 +1,67 @@
 package com.duolingo.app.adapters;
 
 import android.content.Context;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import androidx.recyclerview.widget.RecyclerView;
 import com.duolingo.app.R;
-import com.duolingo.app.ui.curs.CursFragment;
+import com.duolingo.app.models.Category;
+import java.util.List;
 
-public class CategoriesAdapter extends ArrayAdapter<String> {
+public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.ViewHolder> {
 
-    Context context;
-    String rTitle[];
-    String rDescription[];
+    private List<Category> mData;
+    private LayoutInflater mInflater;
+    private Context context;
 
-    public CategoriesAdapter(Context c, String title[], String description[])  {
-        super(c, R.layout.categorie_item, R.id.tv_categorie_title, title);
-        this.context = c;
-        this.rTitle = title;
-        this.rDescription = description;
+    public CategoriesAdapter(List<Category> itemList, Context context){
+        this.mInflater = LayoutInflater.from(context);
+        this.context = context;
+        this.mData = itemList;
+
     }
 
-    @NonNull
-    @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        LayoutInflater layoutInflater = (LayoutInflater) context.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public CategoriesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+        View view = mInflater.inflate(R.layout.item_category, null);
+        return new CategoriesAdapter.ViewHolder(view);
 
-        View row = layoutInflater.inflate(R.layout.categorie_item, parent, false);
-        ImageView images = row.findViewById(R.id.image_categorie);
-        TextView myTitle = row.findViewById(R.id.tv_categorie_title);
-        TextView myDescription = row.findViewById(R.id.tv_categorie_subtitle);
-
-        myTitle.setText(rTitle[position]);
-        myDescription.setText(rDescription[position]);
-
-
-        return row;
     }
+
+    public void setItems(List<Category> items) {
+        mData = items;
+
+    }
+
+    public void onBindViewHolder(final CategoriesAdapter.ViewHolder holder, final int position){
+        holder.bindData(mData.get(position));
+
+    }
+
+    public int getItemCount(){
+        return mData.size();
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder{
+
+        ImageView ivPhoto;
+        TextView tvTitle, tvLevel;
+
+        ViewHolder(View itemView){
+            super(itemView);
+            //ivPhoto = itemView.findViewById(R.id.ivIcon);
+            tvTitle = itemView.findViewById(R.id.rTvTitle);
+            tvLevel = itemView.findViewById(R.id.rTvLevel);
+        }
+
+        void bindData(final Category item){
+            //ivPhoto.setImageBitmap(item.getImage());
+            tvTitle.setText(item.getTitle());
+            tvLevel.setText(item.getLevel());
+        }
+
+    }
+
 }
