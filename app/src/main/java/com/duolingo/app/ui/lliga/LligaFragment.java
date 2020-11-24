@@ -1,9 +1,11 @@
 package com.duolingo.app.ui.lliga;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.duolingo.app.R;
+import com.duolingo.app.tasks.TaskActivity;
 
 public class LligaFragment extends Fragment {
 
@@ -23,13 +26,16 @@ public class LligaFragment extends Fragment {
         lligaViewModel =
                 ViewModelProviders.of(this).get(LligaViewModel.class);
         View root = inflater.inflate(R.layout.fragment_lliga, container, false);
-        final TextView textView = root.findViewById(R.id.text_lliga);
-        lligaViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+
+        Button btNext = root.findViewById(R.id.mkButtonActivity);
+        btNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), TaskActivity.class);
+                startActivity(intent);
             }
         });
+
         return root;
     }
 }
