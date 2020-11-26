@@ -1,5 +1,6 @@
 package com.duolingo.app.ui.curs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,17 +18,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
+import com.duolingo.app.tasks.TaskActivity;
 
 import java.util.ArrayList;
 
-public class CursFragment extends Fragment {
+public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteListener{
 
-    ListView listView;
-    //mockup del content
-    String mkCategorie[] = {"Comida", "viajes", "Transporte", "Salud", "Vestir", "Entretenimiento"};
-    String mkSubCategorie[] = {"3/14", "12/34", "22/32", "0/13", "5/23", "3/42"};
+    private ArrayList<String> listSelectedCourses = new ArrayList<String>();
+    private ArrayList<Category> mkCategories = new ArrayList<Category>();
 
-    static final ArrayList<String> listSelectedCourses = new ArrayList<String>();
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
@@ -90,19 +89,21 @@ public class CursFragment extends Fragment {
             }
         });
 
-        //---------ListView Code------------
 
-
-        ArrayList<Category> mkCategories = new ArrayList<Category>();
+        // RecyclerView
         mkCategories.add(new Category("Patatas", "1"));
         mkCategories.add(new Category("Verduras", "5"));
         mkCategories.add(new Category("Cochecitos", "3"));
         mkCategories.add(new Category("Marcs", "0"));
         mkCategories.add(new Category("Pablitos", "4"));
 
+        // RecyclerView
+        // Se crea e instancia la RecyclerView, luego se crea su respectivo adapter
         RecyclerView recyclerView = view.findViewById(R.id.recyclerView);
-        CategoriesAdapter listAdapter = new CategoriesAdapter(mkCategories, getActivity().getApplicationContext());
+        CategoriesAdapter listAdapter = new CategoriesAdapter(mkCategories, getActivity().getApplicationContext(), this);
 
+        // Se encarga de establecer el layout de la RecyclerView de forma que vaya alternando entre 1
+        // y 2 por fila con un GridLayout y un LinearLayoutManager
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext(), LinearLayoutManager.VERTICAL, true);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 2, GridLayoutManager.VERTICAL, false);
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
@@ -113,9 +114,17 @@ public class CursFragment extends Fragment {
 
         });
 
+        // Se le aplica el LayoutManager y su adapter al RecyclerView
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(listAdapter);
 
         return view;
     };
+
+    @Override
+    public void onNoteClick(int position) {
+        mkCategories.get(position);
+        Intent intent = new Intent(getContext(), TaskActivity.class);
+        startActivity(intent);
+    }
 }
