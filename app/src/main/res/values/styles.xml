@@ -14,4 +14,9 @@
         <item name="android:statusBarColor">#5000C8</item>
         <item name="android:navigationBarColor">#5000C8</item>
     </style>
+
+    <style name="CircularProgressBar">
+        <item name="android:indeterminateOnly">false</item>
+        <item name="android:progressDrawable">@drawable/progress_category</item>
+    </style>
 </resources>

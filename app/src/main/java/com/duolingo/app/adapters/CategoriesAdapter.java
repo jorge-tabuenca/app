@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.duolingo.app.R;
@@ -56,6 +57,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
         ImageView ivPhoto;
         TextView tvTitle, tvLevel;
+        ProgressBar progressBar;
         OnNoteListener onNoteListener;
 
         ViewHolder(View itemView, OnNoteListener onNoteListener){
@@ -63,6 +65,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             //ivPhoto = itemView.findViewById(R.id.ivIcon);
             tvTitle = itemView.findViewById(R.id.rTvTitle);
             tvLevel = itemView.findViewById(R.id.rTvLevel);
+            progressBar = itemView.findViewById(R.id.progressBar);
             this.onNoteListener = onNoteListener;
 
             itemView.setOnClickListener(this);
@@ -72,6 +75,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             //ivPhoto.setImageBitmap(item.getImage());
             tvTitle.setText(item.getTitle());
             tvLevel.setText(item.getLevel());
+            progressBar.setProgress(Integer.parseInt(item.getProgress()));
         }
 
         @Override

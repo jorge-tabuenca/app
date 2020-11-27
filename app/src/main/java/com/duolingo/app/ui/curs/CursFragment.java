@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteListener{
 
-    private ArrayList<String> listSelectedCourses = new ArrayList<String>();
+    static private ArrayList<String> listSelectedCourses = new ArrayList<String>();
     private ArrayList<Category> mkCategories = new ArrayList<Category>();
 
 
@@ -91,11 +91,16 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
 
 
         // RecyclerView
-        mkCategories.add(new Category("Patatas", "1"));
-        mkCategories.add(new Category("Verduras", "5"));
-        mkCategories.add(new Category("Cochecitos", "3"));
-        mkCategories.add(new Category("Marcs", "0"));
-        mkCategories.add(new Category("Pablitos", "4"));
+        mkCategories.add(new Category("Patatas", "1", "20"));
+        mkCategories.add(new Category("Verduras", "5", "60"));
+        mkCategories.add(new Category("Cochecitos", "3", "100"));
+        mkCategories.add(new Category("Marcs", "0", "0"));
+        mkCategories.add(new Category("Pablitos", "4", "50"));
+        mkCategories.add(new Category("Patatas", "1", "20"));
+        mkCategories.add(new Category("Verduras", "5", "60"));
+        mkCategories.add(new Category("Cochecitos", "3", "100"));
+        mkCategories.add(new Category("Marcs", "0", "0"));
+        mkCategories.add(new Category("Pablitos", "4", "50"));
 
         // RecyclerView
         // Se crea e instancia la RecyclerView, luego se crea su respectivo adapter

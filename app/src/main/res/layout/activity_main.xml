@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/backgroundapp"
-    android:paddingTop="?attr/actionBarSize">
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundapp">
 
     <ImageView
         android:id="@+id/imageView"
@@ -65,15 +64,15 @@
         android:layout_width="94dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="22dp"
+        android:layout_marginTop="25dp"
         android:layout_marginEnd="5dp"
         android:layout_toStartOf="@+id/imageView"
         android:fontFamily="@font/duolingo_bold"
-        android:textAlignment="textEnd"
         android:gravity="center"
         android:text="1500"
+        android:textAlignment="textEnd"
         android:textColor="#FFFFFF"
-        android:textSize="24dp" />
+        android:textSize="20dp" />
 
     <TextView
         android:id="@+id/tvCoins3"
@@ -81,13 +80,13 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="25dp"
         android:layout_toEndOf="@+id/imageView3"
         android:fontFamily="@font/duolingo_bold"
         android:gravity="center"
         android:text="1500"
         android:textAlignment="textStart"
         android:textColor="#FFFFFF"
-        android:textSize="24dp" />
+        android:textSize="20dp" />
 
 </RelativeLayout>
