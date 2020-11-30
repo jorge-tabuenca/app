@@ -3,6 +3,7 @@
     <style name="TranslucentStatusBar" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
+        <item name="android:textColor">#FFFFFF</item>
         <item name="android:navigationBarColor">#1d1830</item>
         <item name="android:windowBackground">@drawable/gradient_bg</item>
         <item name="toolbarStyle">@style/Widget.Toolbar</item>

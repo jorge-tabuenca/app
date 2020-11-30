@@ -10,10 +10,12 @@
                         android:endColor="#6c2ccb"
                         android:type="sweep"/>
                     <stroke android:width="2dp"
-                        android:color="#6c2c"/>
+                        android:color="#cb2cc6"/>
                     <solid android:color="#26223e" />
                     <corners android:radius="25dp" />
-                    <padding android:right="10dp" />
+                    <padding
+                        android:left="10dp"
+                        android:right="10dp" />
                 </shape>
             </item>
             <item>
