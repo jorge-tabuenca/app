@@ -6,12 +6,22 @@ public class Category {
 
     String title;
     String level;
+    String progress;
     Bitmap image;
 
-    public Category(String title, String level) {
+    public Category(String title, String level, String progress) {
         this.title = title;
         this.level = level;
+        this.progress = progress;
         // this.image = image;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
     }
 
     public String getTitle() {
