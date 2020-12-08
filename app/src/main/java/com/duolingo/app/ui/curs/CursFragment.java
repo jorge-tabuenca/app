@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.duolingo.app.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
@@ -25,12 +27,12 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
 
     static private ArrayList<String> listSelectedCourses = new ArrayList<String>();
     private ArrayList<Category> mkCategories = new ArrayList<Category>();
-    private ArrayList<Language> arrayLanguages = new ArrayList<>();
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
 
         View view;
         view = inflater.inflate(R.layout.fragment_curs, container, false);
+
 
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
@@ -39,9 +41,9 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
 
         // Spinner con todos los cursos disponibles (Cuando haya que utilizar la BBDD en vez de
         // usar ArrayAdapter, habra que usar ClickAdapater [Esta en la guía oficial])
+
         final Spinner spnTotalCourses  = (Spinner) view.findViewById(R.id.spnTotalCourses);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity().getApplicationContext(),
-                R.array.mkArraySpiner, android.R.layout.simple_spinner_item);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), android.R.layout.simple_spinner_item, Data.arrayCourses);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spnTotalCourses .setAdapter(adapter);
 
@@ -122,6 +124,7 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     }
 
     private ArrayAdapter<String> updateAdapter(){
+
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getActivity().getApplicationContext(),
                 android.R.layout.simple_spinner_item, listSelectedCourses);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
