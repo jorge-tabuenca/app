@@ -3,10 +3,6 @@ package com.duolingo.app;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
 import com.duolingo.app.connRMI.ITestService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,16 +10,11 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import net.sf.lipermi.handler.CallHandler;
 import net.sf.lipermi.net.Client;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    private String serverIP = "192.168.1.148";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +41,15 @@ public class MainActivity extends AppCompatActivity {
             Looper.prepare();
             try {
                 CallHandler callHandler = new CallHandler();
-                Client client = new Client(serverIP, 7777, callHandler);
+                Client client = new Client(Data.serverIP, 7777, callHandler);
                 ITestService testService = (ITestService) client.getGlobal(ITestService.class);
 
                 // originLang = Idioma base de la APP
                 // ej. Castellano == ID: 1
-                Data.arrayCourses = testService.getResponse((short) 1);
+                short mkOriginLang = 1;
+                Data.arrayCourses = testService.getResponse(mkOriginLang);
                 client.close();
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
