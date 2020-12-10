@@ -36,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     class Conn extends AsyncTask<Void, Void, MainActivity> {
 
+        // class Conn
+        // Primera conexión con LipeRMI Server, de aqui obtiene la lista de cursos disponibles
+        // recibe un ArrayList <String>.
+
         @Override
         protected MainActivity doInBackground(Void... voids) {
             Looper.prepare();
