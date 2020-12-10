@@ -1,6 +1,8 @@
 package com.duolingo.app.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.duolingo.app.Data;
 import com.duolingo.app.R;
 import com.google.android.material.snackbar.Snackbar;
 import android.graphics.Color;
@@ -26,6 +28,7 @@ public class TipusTestExActivity extends AppCompatActivity {
     static int mkNumberExercises = 5;
     Random random = new Random();
     int position = 1;
+    boolean hasFailed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,9 @@ public class TipusTestExActivity extends AppCompatActivity {
                 btNext.setText("TERMINA");
             }
         }else{
+            if (!hasFailed){
+                Data.mkMoney += 150;
+            }
             finish();
         }
 
@@ -135,13 +141,12 @@ public class TipusTestExActivity extends AppCompatActivity {
 
         // Si la respuesta es incorrecta, marca el botón de rojo.
 
+        btAnswer1.setEnabled(false);
+        btAnswer2.setEnabled(false);
+        btAnswer3.setEnabled(false);
+
         if (pressedButton.getText().equals(answer)){
             pressedButton.setBackgroundColor(Color.parseColor("#197419"));
-
-            btAnswer1.setEnabled(false);
-            btAnswer2.setEnabled(false);
-            btAnswer3.setEnabled(false);
-
             Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                 public void onClick(View view) {
@@ -152,12 +157,21 @@ public class TipusTestExActivity extends AppCompatActivity {
 
 
 
-            btNext.setEnabled(true);
         }else{
+            hasFailed = true;
             pressedButton.setBackgroundColor(Color.parseColor("#BB0000"));
-            Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_SHORT).show();
+            Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_SHORT);
+            snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                public void onClick(View view) {
+                    nextExercice();
+                }
+            });
+            snackbar.show();
 
         }
+
+        btNext.setEnabled(true);
+
     }
 
     public void reloadButtons(){
