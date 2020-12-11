@@ -66,4 +66,97 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/tvServerIP"
+        android:layout_width="130dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="128dp"
+        android:layout_toEndOf="@+id/imageView3"
+        android:fontFamily="@font/duolingo_bold"
+        android:gravity="center"
+        android:text="Server IP:"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUserName"
+        android:layout_width="130dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="172dp"
+        android:layout_toEndOf="@+id/imageView3"
+        android:fontFamily="@font/duolingo_bold"
+        android:gravity="center"
+        android:text="User name:"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvPassword"
+        android:layout_width="130dp"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="216dp"
+        android:layout_toEndOf="@+id/imageView3"
+        android:fontFamily="@font/duolingo_bold"
+        android:gravity="center"
+        android:text="Password:"
+        android:textAlignment="textStart"
+        android:textColor="#FFFFFF"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextServerIP"
+        android:layout_width="212dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="128dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/duolingo_medium"
+        android:inputType="textPersonName"
+        android:text="192.168.1.1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextUserName"
+        android:layout_width="213dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="172dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/duolingo_medium"
+        android:inputType="textPersonName"
+        android:text="Bepo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextPassword"
+        android:layout_width="214dp"
+        android:layout_height="32dp"
+        android:layout_marginStart="180dp"
+        android:layout_marginTop="216dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/duolingo_medium"
+        android:inputType="textPassword"
+        android:text="qwert123"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
