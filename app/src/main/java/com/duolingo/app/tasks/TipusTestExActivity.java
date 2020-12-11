@@ -67,9 +67,6 @@ public class TipusTestExActivity extends AppCompatActivity {
             position++;
             reloadButtons();
         }else{
-            if (!hasFailed){
-                Data.mkMoney += 150;
-            }
             finish();
         }
 
@@ -133,9 +130,9 @@ public class TipusTestExActivity extends AppCompatActivity {
 
     public String pressedButton(Button pressedButton){
 
-        btAnswer1.setEnabled(false);
-        btAnswer2.setEnabled(false);
-        btAnswer3.setEnabled(false);
+        btAnswer1.setBackgroundResource(R.drawable.spinner_layout);
+        btAnswer2.setBackgroundResource(R.drawable.spinner_layout);
+        btAnswer3.setBackgroundResource(R.drawable.spinner_layout);
 
         btCheck.setEnabled(true);
 
@@ -145,7 +142,7 @@ public class TipusTestExActivity extends AppCompatActivity {
 
     }
 
-    public void checkAnswer(String selectedButtonText, View v){
+    public void checkAnswer(String selectedButtonText, final View v){
 
         // checkAnswer
         // Comprueba que el texto del botón que ha sido presionado es el mismo que el valor de
@@ -154,29 +151,57 @@ public class TipusTestExActivity extends AppCompatActivity {
 
         // Si la respuesta es incorrecta, marca el botón de rojo.
 
+        btCheck.setEnabled(false);
+
+        btAnswer1.setEnabled(false);
+        btAnswer2.setEnabled(false);
+        btAnswer3.setEnabled(false);
+
         if (selectedButtonText.equals(answer)){
             Data.mkMoney += exTypeCoins;
             Data.mkPoints += exTypePoints;
-            Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_SHORT);
-            snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                public void onClick(View view) {
-                    nextExercice();
-                }
-            });
-            snackbar.show();
 
+            if (position == mkNumberExercises){
+                if (!hasFailed){
+                    Data.mkMoney += 150;
+                }
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+Data.mkPoints+"] -- Monedas obtenidas: ["+Data.mkMoney+"]", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        nextExercice();
+                    }
+                });
+                snackbar.show();
+            }else{
+                Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        nextExercice();
+                    }
+                });
+                snackbar.show();
+            }
 
 
         }else{
             hasFailed = true;
-            Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_SHORT);
-            snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                public void onClick(View view) {
-                    nextExercice();
-                }
-            });
-            snackbar.show();
-
+            if (position == mkNumberExercises){
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+Data.mkPoints+"] -- Monedas obtenidas: ["+Data.mkMoney+"]", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        nextExercice();
+                    }
+                });
+                snackbar.show();
+            }else{
+                Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        nextExercice();
+                    }
+                });
+                snackbar.show();
+            }
         }
     }
 
