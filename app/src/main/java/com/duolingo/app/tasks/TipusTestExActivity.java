@@ -25,6 +25,7 @@ public class TipusTestExActivity extends AppCompatActivity {
     Button btAnswer1, btAnswer2, btAnswer3, btCheck;
     String answer = arrayAnswers[0];
     String selectedButtonText = "";
+    int exTypePoints = 15, exTypeCoins = 15;
 
     static int mkNumberExercises = 5;
     Random random = new Random();
@@ -154,6 +155,8 @@ public class TipusTestExActivity extends AppCompatActivity {
         // Si la respuesta es incorrecta, marca el botón de rojo.
 
         if (selectedButtonText.equals(answer)){
+            Data.mkMoney += exTypeCoins;
+            Data.mkPoints += exTypePoints;
             Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                 public void onClick(View view) {
