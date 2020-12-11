@@ -7,16 +7,6 @@
     android:background="@drawable/backgroundapp"
     tools:context=".tasks.TipusTestExActivity">
 
-    <Button
-        android:id="@+id/btNext"
-        android:layout_width="317dp"
-        android:layout_height="52dp"
-        android:layout_marginBottom="64dp"
-        android:text="SIGUIENTE"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="401dp"
@@ -81,5 +71,16 @@
         app:layout_constraintHorizontal_bias="0.522"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btCheck"
+        android:layout_width="189dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="128dp"
+        android:text="COMPRUEBA"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

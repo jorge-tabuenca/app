@@ -22,8 +22,9 @@ public class TipusTestExActivity extends AppCompatActivity {
 
     static String[] mkArrayTitles = {"Comidas", "Animales", "Verbos", "Tiempo"};
     String[] arrayAnswers = {"Resposta correcta", "Resposta incorrecta 1", "Resposta incorrecta 2"};
-    Button btAnswer1, btAnswer2, btAnswer3, btNext;
+    Button btAnswer1, btAnswer2, btAnswer3, btCheck;
     String answer = arrayAnswers[0];
+    String selectedButtonText = "";
 
     static int mkNumberExercises = 5;
     Random random = new Random();
@@ -44,15 +45,15 @@ public class TipusTestExActivity extends AppCompatActivity {
         btAnswer3 = findViewById(R.id.btAnswer3);
         setAnswersText();
 
-
-        btNext = findViewById(R.id.btNext);
-        btNext.setEnabled(false);
-        btNext.setOnClickListener(new View.OnClickListener() {
+        btCheck = findViewById(R.id.btCheck);
+        btCheck.setEnabled(false);
+        btCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                nextExercice();
+                checkAnswer(selectedButtonText, v);
             }
         });
+
 
     }
 
@@ -64,9 +65,6 @@ public class TipusTestExActivity extends AppCompatActivity {
         if (position < mkNumberExercises){
             position++;
             reloadButtons();
-            if (position == mkNumberExercises){
-                btNext.setText("TERMINA");
-            }
         }else{
             if (!hasFailed){
                 Data.mkMoney += 150;
@@ -85,7 +83,7 @@ public class TipusTestExActivity extends AppCompatActivity {
         btAnswer1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(btAnswer1, v);
+                selectedButtonText = pressedButton(btAnswer1);
             }
         });
 
@@ -105,7 +103,7 @@ public class TipusTestExActivity extends AppCompatActivity {
         btAnswer2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(btAnswer2, v);
+                selectedButtonText = pressedButton(btAnswer2);
             }
         });
 
@@ -126,13 +124,27 @@ public class TipusTestExActivity extends AppCompatActivity {
         btAnswer3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(btAnswer3, v);
+                selectedButtonText = pressedButton(btAnswer3);
             }
         });
 
     }
 
-    public void checkAnswer(Button pressedButton, View v){
+    public String pressedButton(Button pressedButton){
+
+        btAnswer1.setEnabled(false);
+        btAnswer2.setEnabled(false);
+        btAnswer3.setEnabled(false);
+
+        btCheck.setEnabled(true);
+
+        pressedButton.setBackgroundColor(Color.parseColor("#767676"));
+
+        return (String) pressedButton.getText();
+
+    }
+
+    public void checkAnswer(String selectedButtonText, View v){
 
         // checkAnswer
         // Comprueba que el texto del botón que ha sido presionado es el mismo que el valor de
@@ -141,12 +153,7 @@ public class TipusTestExActivity extends AppCompatActivity {
 
         // Si la respuesta es incorrecta, marca el botón de rojo.
 
-        btAnswer1.setEnabled(false);
-        btAnswer2.setEnabled(false);
-        btAnswer3.setEnabled(false);
-
-        if (pressedButton.getText().equals(answer)){
-            pressedButton.setBackgroundColor(Color.parseColor("#197419"));
+        if (selectedButtonText.equals(answer)){
             Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                 public void onClick(View view) {
@@ -159,7 +166,6 @@ public class TipusTestExActivity extends AppCompatActivity {
 
         }else{
             hasFailed = true;
-            pressedButton.setBackgroundColor(Color.parseColor("#BB0000"));
             Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_SHORT);
             snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                 public void onClick(View view) {
@@ -169,9 +175,6 @@ public class TipusTestExActivity extends AppCompatActivity {
             snackbar.show();
 
         }
-
-        btNext.setEnabled(true);
-
     }
 
     public void reloadButtons(){
@@ -190,15 +193,10 @@ public class TipusTestExActivity extends AppCompatActivity {
         btAnswer2.setEnabled(true);
         btAnswer3.setEnabled(true);
 
-        // Desactiva el botón btNext
-        btNext.setEnabled(false);
+        btCheck.setEnabled(false);
 
         // Vuelve a cargar datos y a añadirlos aleatoriamente
         setAnswersText();
-
-
-
-
     }
 
 
