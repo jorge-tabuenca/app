@@ -2,6 +2,7 @@ package com.duolingo.app;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import com.duolingo.app.connRMI.ITestService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -12,7 +13,10 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import net.sf.lipermi.handler.CallHandler;
 import net.sf.lipermi.net.Client;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,13 +30,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        createConfigFile();
+
+            BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.navigation_curs, R.id.navigation_perfil, R.id.navigation_lliga, R.id.navigation_botiga)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupWithNavController(navView, navController);
     }
+
+    public void createConfigFile(){
+
+        File folder = new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath(), "config");
+        try {
+            if (!folder.exists()) {
+                folder.mkdirs();
+            }
+            File filename = new File(folder, "config.xml");
+            OutputStream out = new FileOutputStream(filename);
+        }catch (Exception e){
+            e.getCause();
+        }
+
+
+    }
+
 
     class Conn extends AsyncTask<Void, Void, MainActivity> {
 
