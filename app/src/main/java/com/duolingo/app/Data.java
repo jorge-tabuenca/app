@@ -7,7 +7,7 @@ public class Data {
 
     // Variables estaticas que se comparten entre toda la APP
 
-    public static String serverIP = "192.168.1.146";
+    public static String serverIP = "192.168.40.185";
     public static String userName = "";
     public static String password = "";
 

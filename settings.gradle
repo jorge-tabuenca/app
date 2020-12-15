@@ -1,3 +1,5 @@
+include ':liperm'
+include ':lipermi-'
 include ':lipermi'
 include ':app'
 rootProject.name = "AppDuolingo"

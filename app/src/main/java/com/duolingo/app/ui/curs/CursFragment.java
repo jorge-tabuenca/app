@@ -18,6 +18,7 @@ import com.duolingo.app.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
+import com.duolingo.app.tasks.OpenTransExActivity;
 import com.duolingo.app.tasks.TipusTestExActivity;
 
 import java.util.ArrayList;
@@ -105,7 +106,7 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     @Override
     public void onNoteClick(int position) {
         mkCategories.get(position);
-        Intent intent = new Intent(getContext(), TipusTestExActivity.class);
+        Intent intent = new Intent(getContext(), OpenTransExActivity.class);
         startActivity(intent);
     }
 
