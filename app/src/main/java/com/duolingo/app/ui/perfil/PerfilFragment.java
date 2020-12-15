@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
-import com.duolingo.app.Data;
+import com.duolingo.app.utils.Data;
 import com.duolingo.app.MainActivity;
 import com.duolingo.app.R;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import java.io.File;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;

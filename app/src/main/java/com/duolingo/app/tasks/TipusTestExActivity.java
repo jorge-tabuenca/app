@@ -2,7 +2,7 @@ package com.duolingo.app.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.duolingo.app.Data;
+import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
 import com.google.android.material.snackbar.Snackbar;
 import android.graphics.Color;
@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class TipusTestExActivity extends AppCompatActivity {

@@ -14,12 +14,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.duolingo.app.Data;
+import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
 import com.duolingo.app.tasks.OpenTransExActivity;
-import com.duolingo.app.tasks.TipusTestExActivity;
+import com.duolingo.app.utils.ExerciceActivity;
 
 import java.util.ArrayList;
 
@@ -106,7 +106,8 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     @Override
     public void onNoteClick(int position) {
         mkCategories.get(position);
-        Intent intent = new Intent(getContext(), OpenTransExActivity.class);
+        Intent intent = new Intent(getContext(), ExerciceActivity.class);
+        intent.putExtra("categoryID", position);
         startActivity(intent);
     }
 

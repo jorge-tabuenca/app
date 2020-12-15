@@ -2,7 +2,7 @@ package com.duolingo.app.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.duolingo.app.Data;
+import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +15,7 @@ public class OpenTransExActivity extends AppCompatActivity {
 
     static int mkNumberExercises = 5;
 
-    public static int position = 1;
+    public int position = 1;
     int totalPoints = 0, totalCoins = 0;
     int exTypePoints = 20, exTypeCoins = 20;
 
