@@ -1,4 +1,4 @@
-package com.duolingo.app.connRMI;
+package com.duolingo.app.utils;
 
 import java.util.ArrayList;
 

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.duolingo.app.MainActivity;
 import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
@@ -25,7 +26,7 @@ import java.util.ArrayList;
 
 public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteListener{
 
-    static private ArrayList<String> listSelectedCourses = new ArrayList<String>();
+    private static ArrayList<String> listSelectedCourses = new ArrayList<String>();
     private ArrayList<Category> mkCategories = new ArrayList<Category>();
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
@@ -33,6 +34,8 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
         View view;
         view = inflater.inflate(R.layout.fragment_curs, container, false);
 
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+        tvTitle.setText("Hola, "+Data.userName);
 
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
@@ -107,7 +110,6 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     public void onNoteClick(int position) {
         mkCategories.get(position);
         Intent intent = new Intent(getContext(), ExerciceActivity.class);
-        intent.putExtra("categoryID", position);
         startActivity(intent);
     }
 

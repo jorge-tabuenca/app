@@ -3,46 +3,38 @@ package com.duolingo.app;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import com.duolingo.app.connRMI.ITestService;
-import com.duolingo.app.utils.Data;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import com.duolingo.app.utils.ITestService;
+import com.duolingo.app.utils.Data;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import net.sf.lipermi.handler.CallHandler;
 import net.sf.lipermi.net.Client;
 import org.w3c.dom.Document;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static File folder;
-    public static File filename;
-
+    public static File folder, filename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        // Lee el archivo XML y si no existe lo crea. SINGLETON
-        createConfigFile();
-        readXML();
+        createConfigFile();     // Crea la subcarpeta y el fichero XML mediante SINGLETON
+        firstReadXML();              // Lee por primera vez el fichero XML y obtiene la IP
+        new Conn().execute();   // Se conecta con el servidor mediante LipeRMI con la IP obtenida
 
-        System.out.println(Data.serverIP);
-
-        new Conn().execute();
-        setTheme(R.style.TranslucentStatusBar);
-
+        setTheme(R.style.TranslucentStatusBar);     // Fin Splash-Screen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
 
         BottomNavigationView navView = findViewById(R.id.nav_view);
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
@@ -53,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public File xmlSingleton() throws IOException {
+
+        // xmlSingleton()
+        // Singleton.
+
         if (filename == null) {
             filename = new File(folder, "Config.xml");
         }
@@ -62,20 +58,27 @@ public class MainActivity extends AppCompatActivity {
 
     public void createConfigFile(){
 
+        // createConfigFile()
+        // Método donde se crea la subcarpeta "config" en el directorio privado de la aplicación y una vez creada
+        // y verificada de que existe, crea un fichero XML llamado "Config.xml" mediande el método
+        // xmlSingleton()
+
+
         try {
             folder = new File(getApplicationContext().getExternalFilesDir(null).getAbsolutePath(), "config");
             if (!folder.exists()) {
                 folder.mkdirs();
             }
-
             filename = xmlSingleton();
-            OutputStream out = new FileOutputStream(filename);
+            if (!filename.exists()){
+                filename.createNewFile();
+            }
         }catch (Exception e){
             e.getCause();
         }
     }
 
-    public void readXML(){
+    public void firstReadXML(){
 
         // readXML()
         // Este metodo se encarga de leer el fichero XML "Config.XML" y obtener los valores
@@ -87,17 +90,27 @@ public class MainActivity extends AppCompatActivity {
                 DocumentBuilder db = dbFactory.newDocumentBuilder();
                 Document dom  = db.parse(filename);
 
-                Data.serverIP = dom.getElementsByTagName("ip").item(0).getTextContent();
-                Data.userName =  dom.getElementsByTagName("username").item(0).getTextContent();
-                Data.password = dom.getElementsByTagName("password").item(0).getTextContent();
+                // En caso de no haber IP en el XML, obtiene la IP por defecto establecida en Data
+                String tempIP = dom.getElementsByTagName("ip").item(0).getTextContent();
+                if (!tempIP.isEmpty()){
+                    Data.serverIP = tempIP;
+                }
+
+                String tempUsername =  dom.getElementsByTagName("username").item(0).getTextContent();
+                if (!tempUsername.isEmpty()){
+                    Data.userName = tempUsername;
+                }
+
+                String tempPass = dom.getElementsByTagName("password").item(0).getTextContent();
+                if (!tempPass.isEmpty()){
+                    Data.password = tempPass;
+                }
 
             }catch (Exception e){
-                e.getCause();
+                e.printStackTrace();
             }
         }
-
     }
-
 
     class Conn extends AsyncTask<Void, Void, MainActivity> {
 

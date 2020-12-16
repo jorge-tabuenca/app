@@ -1,27 +1,23 @@
 package com.duolingo.app.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
+import com.duolingo.app.utils.ExerciceActivity;
+import com.google.android.material.snackbar.Snackbar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class OpenTransExActivity extends AppCompatActivity {
 
-    static int mkNumberExercises = 5;
-
-    public int position = 1;
-    int totalPoints = 0, totalCoins = 0;
-    int exTypePoints = 20, exTypeCoins = 20;
+    private final int exTypePoints = 20, exTypeCoins = 20;
 
     private String phrToTranslate;
-    private String[] arraySolutions = {"He's a men", "He is a men"};
+    private String[] arraySolutions;
     private EditText etPlayerAnswer;
+    private Button btCheck;
     private boolean isCorrect = false;
 
     @Override
@@ -29,7 +25,7 @@ public class OpenTransExActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open_trans_ex);
 
-        phrToTranslate = "El es un hombre";
+        getData();
 
         TextView tvPhrToTranslate = findViewById(R.id.tvPhrToTranslate);
         tvPhrToTranslate.setText(phrToTranslate);
@@ -37,58 +33,122 @@ public class OpenTransExActivity extends AppCompatActivity {
         etPlayerAnswer = findViewById(R.id.etPlayerAnswer);
         etPlayerAnswer.setText("");
 
-        Button btCheck = findViewById(R.id.btNext);
+        btCheck = findViewById(R.id.btNext);
         btCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checkAnswer(etPlayerAnswer.getText().toString());
+                checkAnswer(etPlayerAnswer.getText().toString(), v);
             }
         });
     }
 
-    public void checkAnswer(String answer){
+    public void getData(){
+
+        // getData()
+        // Método (mockUp) donde obtiene la información necesaria para este ejercicio.
+
+        String[] rawData = {"El es un hombre","He's a man//He is a man"};
+
+        phrToTranslate = rawData[0];
+        arraySolutions = rawData[1].split("//");
+
+    }
+
+    public void checkAnswer(String answer, View v){
+
+        // checkAnswer()
+        // Comprueba que el texto introducido en "etPlayerAnswer" coincida con alguna de las
+        // String en "arraySolutions". Una vez comprobado lo notifica al jugador con una SnackBar
+        // y al clicar en ella te permite acceder al siguiente nivel.
+
+        answer = fixInput(answer);
+
+        etPlayerAnswer.setEnabled(false);
+        btCheck.setEnabled(false);
 
         for (int i = 0; i < arraySolutions.length; i++){
-            if (answer.equals(arraySolutions[i])){
+            if (answer.equals(arraySolutions[i].toLowerCase())){
                 isCorrect = true;
                 break;
             }
         }
 
         if (isCorrect){
-            totalPoints += exTypePoints;
-            totalCoins += exTypeCoins;
-            Toast.makeText(getApplicationContext(), "OK!", Toast.LENGTH_LONG).show();
+            ExerciceActivity.totalPoints += exTypePoints;
+            ExerciceActivity.totalMoney += exTypeCoins;
+
+            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
+                    }
+                });
+                snackbar.show();
+
+            }else{
+                Snackbar snackbar = Snackbar.make(v, "OK!", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
+                    }
+                });
+                snackbar.show();
+            }
+
         }else{
-            Toast.makeText(getApplicationContext(), "Incorrecte...", Toast.LENGTH_LONG).show();
+            ExerciceActivity.hasFailed = true;
+
+            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
+                    }
+                });
+                snackbar.show();
+            }else{
+                Snackbar snackbar = Snackbar.make(v, "ERROR...", Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+                    public void onClick(View view) {
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
+                    }
+                });
+                snackbar.show();
+            }
+
+
+
         }
-
-        nextExercice();
-
     }
 
+    public static String fixInput(String answer) {
 
-    public void nextExercice(){
+        // fixInput()
+        // Filtro de caracteres especiales para "answer"
 
-        // nextExercice
-        // Método que se ejecuta al presionar btNext o la accion de la SnackBar, avanza de nivel.
-
-        if (position < mkNumberExercises){
-            position++;
-            reloadExercice();
-        }else{
-            Data.mkMoney += totalCoins;
-            Data.mkPoints += totalPoints;
-            finish();
-        }
-
+        return answer.replaceAll("[.:,;!\"·$%&/()=?¿¡]", "").replaceAll("[\\s]+", " ").toLowerCase();
     }
 
-    public void reloadExercice(){
+    @Override
+    public void onBackPressed() {
 
-        etPlayerAnswer.setText("");
-        isCorrect = false;
+        // onBackPressed()
+        // Al presionar el boton BACK, reemplaza su accion original por NO hacer nada
 
+        return;
     }
 
 }

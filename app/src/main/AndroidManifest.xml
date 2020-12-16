@@ -13,11 +13,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true">
-        <activity android:name=".utils.ExerciceActivity"
+        <activity
+            android:name=".utils.ExerciceActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentStatusBar">
-    </activity>
+            android:theme="@style/TranslucentStatusBar"></activity>
         <activity
             android:name=".tasks.OpenTransExActivity"
             android:label="@string/app_name"

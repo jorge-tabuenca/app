@@ -1,16 +1,14 @@
 package com.duolingo.app.tasks;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
+import com.duolingo.app.utils.ExerciceActivity;
 import com.google.android.material.snackbar.Snackbar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 import java.util.Random;
 
 public class TipusTestExActivity extends AppCompatActivity {
@@ -19,32 +17,26 @@ public class TipusTestExActivity extends AppCompatActivity {
     // Esta és la activity de los ejercicios TipusTest. Se ejecutará cuando la ID del TipusExercici
     // sea la misma que tienen los ejercicios TipusTest. Obtendrá los valores mediante LipeRMI (mkUp)
 
-    static String[] mkArrayTitles = {"Comidas", "Animales", "Verbos", "Tiempo"};
-    String[] arrayAnswers = {"Resposta correcta", "Resposta incorrecta 1", "Resposta incorrecta 2"};
-    Button btAnswer1, btAnswer2, btAnswer3, btCheck;
-    String answer = arrayAnswers[0];
-    String selectedButtonText = "";
+    private final int exTypePoints = 15, exTypeCoins = 15;
 
-    int totalPoints = 0, totalCoins = 0;
-    int exTypePoints = 15, exTypeCoins = 15;
-
-    static int mkNumberExercises = 5;
-    Random random = new Random();
-    int position = 1;
-    boolean hasFailed = false;
+    private Button btAnswer1, btAnswer2, btAnswer3, btCheck;
+    private TextView tvStatement;
+    private String selectedButtonText, answer;
+    private String[] arrayAnswers;
+    private Random random = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task);
 
-        // tvTitle - Titúlo del ejercicio
-        final TextView tvTitle = findViewById(R.id.tvTitle);
-        tvTitle.setText(mkArrayTitles[random.nextInt(mkArrayTitles.length)]+ " -- " + position+"/"+mkNumberExercises);
 
+        tvStatement = findViewById(R.id.tvStatement);
         btAnswer1 = findViewById(R.id.btAnswer1);
         btAnswer2 = findViewById(R.id.btAnswer2);
         btAnswer3 = findViewById(R.id.btAnswer3);
+
+        getData();
         setAnswersText();
 
         btCheck = findViewById(R.id.btCheck);
@@ -59,23 +51,23 @@ public class TipusTestExActivity extends AppCompatActivity {
 
     }
 
-    public void nextExercice(){
+    private void getData(){
 
-        // nextExercice
-        // Método que se ejecuta al presionar btNext o la accion de la SnackBar, avanza de nivel.
+        // getData()
+        // Método (mockUp) donde obtiene la información necesaria para este ejercicio.
 
-        if (position < mkNumberExercises){
-            position++;
-            reloadButtons();
-        }else{
-            Data.mkMoney += totalCoins;
-            Data.mkPoints += totalPoints;
-            finish();
-        }
+        String[] rawData = {"Mi gato es negro", "My cat is black", "Black is the cat", "The cat as black"};
+        tvStatement.setText(rawData[0]);
+        arrayAnswers = new String[] {rawData[1], rawData[2], rawData[3]};
+        answer = rawData[1];
 
     }
 
     public void setAnswersText(){
+
+        // setAnswersText()
+        // Método donde se introduce de manera aleatoria las diferentes opciones en los
+        // diferentes botones y se añade sus listeners.
 
         boolean isUnique = false;
 
@@ -87,8 +79,6 @@ public class TipusTestExActivity extends AppCompatActivity {
                 selectedButtonText = pressedButton(btAnswer1);
             }
         });
-
-
 
         // Establece el texto del segundo botón y comprueba que no tenga el mismo texto que el
         // btAnswer1
@@ -133,12 +123,19 @@ public class TipusTestExActivity extends AppCompatActivity {
 
     public String pressedButton(Button pressedButton){
 
+        // pressedButton()
+        // Se activa al pulsar uno de los botones. Resetea todos los fondos y cambia el fondo
+        // del boton presionado para diferenciarlo del resto. Devuevle una STRING con el texto
+        // del boton seleccionado.
+
+        // Fondo de los botones. Primero cambia todos los fondos al mismo
         btAnswer1.setBackgroundResource(R.drawable.spinner_layout);
         btAnswer2.setBackgroundResource(R.drawable.spinner_layout);
         btAnswer3.setBackgroundResource(R.drawable.spinner_layout);
 
         btCheck.setEnabled(true);
 
+        // Luego cambia el fondo al botón marcado para diferenciarlo.
         pressedButton.setBackgroundColor(Color.parseColor("#767676"));
 
         return (String) pressedButton.getText();
@@ -155,24 +152,22 @@ public class TipusTestExActivity extends AppCompatActivity {
         // Si la respuesta es incorrecta, marca el botón de rojo.
 
         btCheck.setEnabled(false);
-
         btAnswer1.setEnabled(false);
         btAnswer2.setEnabled(false);
         btAnswer3.setEnabled(false);
 
         if (selectedButtonText.equals(answer)){
-            totalCoins += exTypeCoins;
-            totalPoints += exTypePoints;
+            ExerciceActivity.totalMoney += exTypeCoins;
+            ExerciceActivity.totalPoints += exTypePoints;
 
-            if (position == mkNumberExercises){
-                if (!hasFailed){
-                    totalCoins += 150;
-
-                }
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+totalPoints+"] -- Monedas obtenidas: ["+totalCoins+"]", Snackbar.LENGTH_INDEFINITE);
+            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
-                        nextExercice();
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
                     }
                 });
                 snackbar.show();
@@ -180,7 +175,11 @@ public class TipusTestExActivity extends AppCompatActivity {
                 Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
-                        nextExercice();
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
+
                     }
                 });
                 snackbar.show();
@@ -188,12 +187,14 @@ public class TipusTestExActivity extends AppCompatActivity {
 
 
         }else{
-            hasFailed = true;
-            if (position == mkNumberExercises){
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+totalPoints+"] -- Monedas obtenidas: ["+totalCoins+"]", Snackbar.LENGTH_INDEFINITE);
+            ExerciceActivity.hasFailed = true;
+            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
-                        nextExercice();
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
                     }
                 });
                 snackbar.show();
@@ -201,7 +202,10 @@ public class TipusTestExActivity extends AppCompatActivity {
                 Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
-                        nextExercice();
+                        ExerciceActivity e = new ExerciceActivity();
+                        e.nextExercice(getApplicationContext());
+                        finish();
+
                     }
                 });
                 snackbar.show();
@@ -209,27 +213,13 @@ public class TipusTestExActivity extends AppCompatActivity {
         }
     }
 
-    public void reloadButtons(){
+    @Override
+    public void onBackPressed() {
 
-        // reloadButtons()
-        // Este método se ejecuta cuando se le da al Button btNext o a la acción
-        // de la SnackBar NEXT
+        // onBackPressed()
+        // Al presionar el boton BACK, reemplaza su accion original por NO hacer nada
 
-        // Resetea los fondos de los botones
-        btAnswer1.setBackgroundResource(R.drawable.spinner_layout);
-        btAnswer2.setBackgroundResource(R.drawable.spinner_layout);
-        btAnswer3.setBackgroundResource(R.drawable.spinner_layout);
-
-        // Vuelve a activar los botones de las respuestas
-        btAnswer1.setEnabled(true);
-        btAnswer2.setEnabled(true);
-        btAnswer3.setEnabled(true);
-
-        btCheck.setEnabled(false);
-
-        // Vuelve a cargar datos y a añadirlos aleatoriamente
-        setAnswersText();
+        return;
     }
-
 
 }

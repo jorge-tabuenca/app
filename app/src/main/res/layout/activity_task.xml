@@ -8,29 +8,15 @@
     tools:context=".tasks.TipusTestExActivity">
 
     <TextView
-        android:id="@+id/tvTitle"
-        android:layout_width="401dp"
-        android:layout_height="61dp"
-        android:fontFamily="@font/duolingo_bold"
-        android:gravity="center"
-        android:text="TextView"
-        android:textColor="#FFFFFF"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.138" />
-
-    <TextView
         android:id="@+id/tvStatement"
-        android:layout_width="344dp"
-        android:layout_height="59dp"
-        android:layout_marginTop="180dp"
+        android:layout_width="348dp"
+        android:layout_height="104dp"
+        android:layout_marginTop="124dp"
+        android:fontFamily="@font/duolingo_black"
         android:gravity="center"
         android:text="Frase a traduïr"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
@@ -40,7 +26,7 @@
         android:id="@+id/btAnswer1"
         android:layout_width="321dp"
         android:layout_height="48dp"
-        android:layout_marginTop="284dp"
+        android:layout_marginTop="276dp"
         android:background="@drawable/spinner_layout"
         android:text="ANSWER 1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -52,7 +38,7 @@
         android:id="@+id/btAnswer2"
         android:layout_width="321dp"
         android:layout_height="48dp"
-        android:layout_marginTop="340dp"
+        android:layout_marginTop="336dp"
         android:background="@drawable/spinner_layout"
         android:text="ANSWER 2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,13 +60,12 @@
 
     <Button
         android:id="@+id/btCheck"
-        android:layout_width="189dp"
-        android:layout_height="48dp"
-        android:layout_marginBottom="128dp"
+        android:layout_width="315dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="112dp"
         android:text="COMPRUEBA"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
