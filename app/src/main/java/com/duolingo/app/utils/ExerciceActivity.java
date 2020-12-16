@@ -1,12 +1,11 @@
 package com.duolingo.app.utils;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.duolingo.app.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.duolingo.app.models.Exercice;
 import com.duolingo.app.tasks.OpenTransExActivity;
 import com.duolingo.app.tasks.TipusTestExActivity;

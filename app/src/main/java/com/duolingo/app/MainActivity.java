@@ -3,34 +3,47 @@ package com.duolingo.app;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Looper;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import com.duolingo.app.utils.ITestService;
+
 import com.duolingo.app.utils.Data;
+import com.duolingo.app.utils.ITestService;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import net.sf.lipermi.handler.CallHandler;
 import net.sf.lipermi.net.Client;
+
 import org.w3c.dom.Document;
+
 import java.io.File;
 import java.io.IOException;
+
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static File folder, filename;
+    public static File folder, filename, encryptKey;
+    public static final String secretKey = "ssshhhhhhhhhhh!!!!";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        createConfigFile();     // Crea la subcarpeta y el fichero XML mediante SINGLETON
-        firstReadXML();              // Lee por primera vez el fichero XML y obtiene la IP
-        new Conn().execute();   // Se conecta con el servidor mediante LipeRMI con la IP obtenida
+        createConfigFile();             // Crea la subcarpeta y el fichero XML mediante SINGLETON
+        firstReadXML();                 // Lee por primera vez el fichero XML y obtiene la IP
+
+        encryptKey = new File(folder, "EncryptKey.txt");
+        try {
+            createEncryptKeyFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        new Conn().execute();           // Se conecta con el servidor mediante LipeRMI con la IP obtenida
 
         setTheme(R.style.TranslucentStatusBar);     // Fin Splash-Screen
         super.onCreate(savedInstanceState);
@@ -69,12 +82,22 @@ public class MainActivity extends AppCompatActivity {
             if (!folder.exists()) {
                 folder.mkdirs();
             }
+
             filename = xmlSingleton();
             if (!filename.exists()){
                 filename.createNewFile();
             }
+
         }catch (Exception e){
             e.getCause();
+        }
+    }
+
+    public void createEncryptKeyFile() throws IOException {
+
+        if(!encryptKey.exists()) {
+            encryptKey.createNewFile();
+            System.out.println("nuevo fichero generado.");
         }
     }
 
@@ -140,6 +163,5 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-
 
 }

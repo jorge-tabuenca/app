@@ -1,14 +1,14 @@
 package com.duolingo.app.tasks;
 
-import androidx.appcompat.app.AppCompatActivity;
-import com.duolingo.app.R;
-import com.duolingo.app.utils.ExerciceActivity;
-import com.google.android.material.snackbar.Snackbar;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import androidx.appcompat.app.AppCompatActivity;
+import com.duolingo.app.R;
+import com.duolingo.app.utils.ExerciceActivity;
+import com.google.android.material.snackbar.Snackbar;
 
 public class OpenTransExActivity extends AppCompatActivity {
 
@@ -78,7 +78,7 @@ public class OpenTransExActivity extends AppCompatActivity {
             ExerciceActivity.totalMoney += exTypeCoins;
 
             if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                Snackbar snackbar = Snackbar.make(v, "OK! Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
                         ExerciceActivity e = new ExerciceActivity();
@@ -106,7 +106,7 @@ public class OpenTransExActivity extends AppCompatActivity {
             ExerciceActivity.hasFailed = true;
 
             if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                Snackbar snackbar = Snackbar.make(v, "ERROR... Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
                         ExerciceActivity e = new ExerciceActivity();

@@ -6,10 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
-import com.duolingo.app.utils.Data;
+
 import com.duolingo.app.MainActivity;
 import com.duolingo.app.R;
+import com.duolingo.app.utils.Data;
+import com.duolingo.app.utils.Encrypter;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -23,7 +27,6 @@ import javax.xml.transform.stream.StreamResult;
 public class PerfilFragment extends Fragment {
 
     private EditText etServerIP, etUserName, etPassword;
-
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -94,7 +97,9 @@ public class PerfilFragment extends Fragment {
 
                 Data.serverIP = dom.getElementsByTagName("ip").item(0).getTextContent();
                 Data.userName =  dom.getElementsByTagName("username").item(0).getTextContent();
-                Data.password = dom.getElementsByTagName("password").item(0).getTextContent();
+                String encryptedKey = dom.getElementsByTagName("password").item(0).getTextContent();
+
+                Data.password = Encrypter.decrypt(encryptedKey, MainActivity.secretKey);
 
             }catch (Exception e){
                 e.getCause();
@@ -144,7 +149,7 @@ public class PerfilFragment extends Fragment {
 
                 // TAG PASSWORD
                 Element ePassword = doc.createElement("password");
-                ePassword.appendChild(doc.createTextNode(newPassword));
+                ePassword.appendChild(doc.createTextNode(Encrypter.encrypt(newPassword, MainActivity.secretKey)));
                 eRoot.appendChild(ePassword);
 
                 // Transforma los Element i el Document a un fichero XML y lo guarda

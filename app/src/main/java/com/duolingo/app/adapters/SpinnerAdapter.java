@@ -6,11 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.duolingo.app.models.Language;
-import java.util.ArrayList;
+
 import com.duolingo.app.R;
+import com.duolingo.app.models.Language;
+
+import java.util.ArrayList;
 
 public class SpinnerAdapter extends ArrayAdapter<Language> {
 

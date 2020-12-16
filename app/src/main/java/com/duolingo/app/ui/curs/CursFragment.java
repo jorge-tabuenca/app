@@ -9,17 +9,16 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.duolingo.app.MainActivity;
-import com.duolingo.app.utils.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
-import com.duolingo.app.tasks.OpenTransExActivity;
+import com.duolingo.app.utils.Data;
 import com.duolingo.app.utils.ExerciceActivity;
 
 import java.util.ArrayList;

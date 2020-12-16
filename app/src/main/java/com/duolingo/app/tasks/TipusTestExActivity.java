@@ -1,14 +1,17 @@
 package com.duolingo.app.tasks;
 
-import androidx.appcompat.app.AppCompatActivity;
-import com.duolingo.app.R;
-import com.duolingo.app.utils.ExerciceActivity;
-import com.google.android.material.snackbar.Snackbar;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.duolingo.app.R;
+import com.duolingo.app.utils.ExerciceActivity;
+import com.google.android.material.snackbar.Snackbar;
+
 import java.util.Random;
 
 public class TipusTestExActivity extends AppCompatActivity {
@@ -161,7 +164,7 @@ public class TipusTestExActivity extends AppCompatActivity {
             ExerciceActivity.totalPoints += exTypePoints;
 
             if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                Snackbar snackbar = Snackbar.make(v, "Correcte! .Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
                         ExerciceActivity e = new ExerciceActivity();
@@ -189,7 +192,7 @@ public class TipusTestExActivity extends AppCompatActivity {
         }else{
             ExerciceActivity.hasFailed = true;
             if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
+                Snackbar snackbar = Snackbar.make(v, "Error... Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
                     public void onClick(View view) {
                         ExerciceActivity e = new ExerciceActivity();
