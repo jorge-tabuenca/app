@@ -1,12 +1,15 @@
 package com.duolingo.app.tasks;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import com.duolingo.app.R;
+import com.duolingo.app.models.Exercice;
 import com.duolingo.app.utils.ExerciceActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,11 +50,15 @@ public class OpenTransExActivity extends AppCompatActivity {
         // getData()
         // Método (mockUp) donde obtiene la información necesaria para este ejercicio.
 
-        String[] rawData = {"El es un hombre","He's a man//He is a man"};
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax(ExerciceActivity.arrayExercices.size());
+        progressBar.setProgress(ExerciceActivity.exIndex);
 
-        phrToTranslate = rawData[0];
-        arraySolutions = rawData[1].split("//");
-
+        if (getIntent().getExtras() != null){
+            Exercice rawData = (Exercice) getIntent().getSerializableExtra("data");
+            phrToTranslate = rawData.getExStatement();
+            arraySolutions = rawData.getWord1().split("//");
+        }
     }
 
     public void checkAnswer(String answer, View v){
@@ -73,65 +80,40 @@ public class OpenTransExActivity extends AppCompatActivity {
             }
         }
 
+        String msg = "";
+
+        // Si esta OK o dona ERROR.
         if (isCorrect){
             ExerciceActivity.totalPoints += exTypePoints;
             ExerciceActivity.totalMoney += exTypeCoins;
-
-            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "OK! Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-                    }
-                });
-                snackbar.show();
-
-            }else{
-                Snackbar snackbar = Snackbar.make(v, "OK!", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-                    }
-                });
-                snackbar.show();
-            }
+            msg = "OK! ";
 
         }else{
             ExerciceActivity.hasFailed = true;
-
-            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "ERROR... Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-                    }
-                });
-                snackbar.show();
-            }else{
-                Snackbar snackbar = Snackbar.make(v, "ERROR...", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-                    }
-                });
-                snackbar.show();
-            }
-
-
-
+            msg = "ERROR... ";
         }
+
+        // Si es el ultimo nivel
+        if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+            msg = msg + "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]";
+            // Si hasFailed es FALSE
+            if (!ExerciceActivity.hasFailed){
+                msg = msg + " [+150 BONUS]";
+            }
+        }
+
+        // Mostra SNACKBAR
+        Snackbar snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+            public void onClick(View view) {
+                ExerciceActivity e = new ExerciceActivity();
+                e.nextExercice(getApplicationContext());
+                finish();
+            }
+        });
+        snackbar.setActionTextColor(Color.parseColor("#cb2cc6"));
+
+        snackbar.show();
     }
 
     public static String fixInput(String answer) {

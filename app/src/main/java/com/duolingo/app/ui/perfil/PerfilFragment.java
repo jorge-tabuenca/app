@@ -6,16 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import androidx.fragment.app.Fragment;
-
 import com.duolingo.app.MainActivity;
 import com.duolingo.app.R;
 import com.duolingo.app.utils.Data;
 import com.duolingo.app.utils.Encrypter;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -33,6 +31,8 @@ public class PerfilFragment extends Fragment {
         View view;
         view = inflater.inflate(R.layout.fragment_perfil, container, false);
 
+        readXML();
+
         // Money
         TextView tvMoney = (TextView) view.findViewById(R.id.tvCoins);
         tvMoney.setText(Integer.toString(Data.mkMoney));
@@ -41,10 +41,6 @@ public class PerfilFragment extends Fragment {
         TextView tvPoints = (TextView) view.findViewById(R.id.tvCoins3);
         tvPoints.setText(Integer.toString(Data.mkPoints));
 
-
-        readXML();
-
-        System.out.println(MainActivity.filename.getAbsoluteFile());
 
         etServerIP = (EditText) view.findViewById(R.id.etServerIP);
         etServerIP.setText(Data.serverIP);
@@ -79,6 +75,8 @@ public class PerfilFragment extends Fragment {
             }
         });
 
+        writeXML();
+
         return view;
     }
 
@@ -97,9 +95,12 @@ public class PerfilFragment extends Fragment {
 
                 Data.serverIP = dom.getElementsByTagName("ip").item(0).getTextContent();
                 Data.userName =  dom.getElementsByTagName("username").item(0).getTextContent();
-                String encryptedKey = dom.getElementsByTagName("password").item(0).getTextContent();
 
+                String encryptedKey = dom.getElementsByTagName("password").item(0).getTextContent();
                 Data.password = Encrypter.decrypt(encryptedKey, MainActivity.secretKey);
+
+                Data.mkMoney = Integer.parseInt(dom.getElementsByTagName("money").item(0).getTextContent());
+                Data.mkPoints = Integer.parseInt(dom.getElementsByTagName("points").item(0).getTextContent());
 
             }catch (Exception e){
                 e.getCause();
@@ -131,26 +132,19 @@ public class PerfilFragment extends Fragment {
             try {
                 DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbFactory.newDocumentBuilder();
-                Document doc = db.newDocument();
-
-                // TAG ROOT = CONFIG
-                Element eRoot = doc.createElement("config");
-                doc.appendChild(eRoot);
+                Document doc = db.parse(MainActivity.filename);
 
                 // TAG SERVERIP
-                Element eIP = doc.createElement("ip");
-                eIP.appendChild(doc.createTextNode(newServerIP));
-                eRoot.appendChild(eIP);
+                Node eIP = doc.getElementsByTagName("ip").item(0);
+                eIP.setTextContent(newServerIP);
 
                 // TAG USERNAME
-                Element eUsername = doc.createElement("username");
-                eUsername.appendChild(doc.createTextNode(newUserName));
-                eRoot.appendChild(eUsername);
+                Node eUsername = doc.getElementsByTagName("username").item(0);
+                eUsername.setTextContent(newUserName);
 
                 // TAG PASSWORD
-                Element ePassword = doc.createElement("password");
-                ePassword.appendChild(doc.createTextNode(Encrypter.encrypt(newPassword, MainActivity.secretKey)));
-                eRoot.appendChild(ePassword);
+                Node ePassword = doc.getElementsByTagName("password").item(0);
+                ePassword.setTextContent(Encrypter.encrypt(newPassword, MainActivity.secretKey));
 
                 // Transforma los Element i el Document a un fichero XML y lo guarda
                 TransformerFactory transformerFactory = TransformerFactory.newInstance();

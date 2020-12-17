@@ -1,6 +1,8 @@
 package com.duolingo.app.models;
 
-public class Exercice {
+import java.io.Serializable;
+
+public class Exercice implements Serializable {
 
     int categoryID, typeExercice;
     String exStatement;

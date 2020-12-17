@@ -6,11 +6,24 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.duolingo.app.MainActivity;
 import com.duolingo.app.models.Exercice;
 import com.duolingo.app.tasks.OpenTransExActivity;
 import com.duolingo.app.tasks.TipusTestExActivity;
+import com.duolingo.app.ui.perfil.PerfilFragment;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 public class ExerciceActivity extends AppCompatActivity {
 
@@ -54,6 +67,7 @@ public class ExerciceActivity extends AppCompatActivity {
             }
 
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra("data", arrayExercices.get(exIndex));
             context.startActivity(intent);
             exIndex++;
         }else{
@@ -79,12 +93,51 @@ public class ExerciceActivity extends AppCompatActivity {
             System.out.println(hasFailed + " + 150");
         }
 
+        updateXML();
+
         // Reset de variables estaticas.
+        arrayExercices.clear();
+        exIndex = 0;
         hasFailed = false;
         totalPoints = 0;
         totalMoney = 0;
 
         finish();
+
+    }
+
+    private void updateXML(){
+
+        // updateXML()
+        // Al acabar una categoría, añade las monedas ganadas al fichero XML y asi tenerlas
+        // persistentes.
+
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder db = dbFactory.newDocumentBuilder();
+            Document doc = db.parse(MainActivity.filename);
+
+            Node eMoney = doc.getElementsByTagName("money").item(0);
+            eMoney.setTextContent(Integer.toString(Data.mkMoney));
+
+            // TAG POINTS
+            Node ePoints = doc.getElementsByTagName("points").item(0);
+            ePoints.setTextContent(Integer.toString(Data.mkPoints));
+
+            // Transforma los Element i el Document a un fichero XML y lo guarda
+            TransformerFactory transformerFactory = TransformerFactory.newInstance();
+            Transformer transformer = transformerFactory.newTransformer();
+            DOMSource source = new DOMSource(doc);
+            StreamResult result = new StreamResult(MainActivity.filename);
+
+            transformer.transform(source, result);
+            System.out.println("Fichero actualizado correctamente: ["+MainActivity.filename.getName()+"]");
+            System.out.println("Guardando fichero en: ["+MainActivity.filename.getAbsolutePath()+"]");
+
+        }catch (Exception e){
+            System.out.println("ERROR - No se ha podido actualizar: ["+MainActivity.filename.getName()+"]");
+            e.printStackTrace();
+        }
 
     }
 
@@ -95,9 +148,9 @@ public class ExerciceActivity extends AppCompatActivity {
         // Son mockUp.
 
         arrayExercices.add(new Exercice(1, 7, "Mi gato es negro", "My cat is black", "Black is the cat", "The cat as black"));
-        arrayExercices.add(new Exercice(1, 1, "El esta durmiendo", "He is sleeping || He's sleeping"));
+        arrayExercices.add(new Exercice(1, 1, "El esta durmiendo", "He is sleeping//He's sleeping"));
         arrayExercices.add(new Exercice(1, 7, "¡Eso fue increible!", "That was amazing", "This is incredible", "It is amazed"));
         arrayExercices.add(new Exercice(1, 7, "Se cayó y se hizo daño", "He fell and hurt himself", "Went down and died", "Auuuuuuu"));
-        arrayExercices.add(new Exercice(1, 1, "Ella tiene un gato", "She have a cat  || She owns a cat"));
+        arrayExercices.add(new Exercice(1, 1, "Ella tiene un gato", "She have a cat//She owns a cat//She has a cat"));
     }
 }

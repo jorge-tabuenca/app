@@ -33,8 +33,16 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
         View view;
         view = inflater.inflate(R.layout.fragment_curs, container, false);
 
+        checkCourses();
+
         TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
-        tvTitle.setText("Hola, "+Data.userName);
+
+        if (Data.userName.isEmpty()){
+            tvTitle.setText("Buholingo!");
+        }else{
+            tvTitle.setText("Hola, "+Data.userName);
+
+        }
 
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
@@ -113,16 +121,16 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     }
 
     private void initCategories(){
-        mkCategories.add(new Category("Patatas", "1", "20"));
-        mkCategories.add(new Category("Verduras", "5", "60"));
-        mkCategories.add(new Category("Cochecitos", "3", "100"));
-        mkCategories.add(new Category("Marcs", "0", "0"));
-        mkCategories.add(new Category("Pablitos", "4", "50"));
-        mkCategories.add(new Category("Patatas", "1", "20"));
-        mkCategories.add(new Category("Verduras", "5", "60"));
-        mkCategories.add(new Category("Cochecitos", "3", "100"));
-        mkCategories.add(new Category("Marcs", "0", "0"));
-        mkCategories.add(new Category("Pablitos", "4", "50"));
+        mkCategories.add(new Category("Familia", "1", "20"));
+        mkCategories.add(new Category("Animales", "5", "60"));
+        mkCategories.add(new Category("Comidas", "3", "100"));
+        mkCategories.add(new Category("Vehiculos", "0", "0"));
+        mkCategories.add(new Category("Sustantivos", "4", "50"));
+        mkCategories.add(new Category("Verbos", "1", "20"));
+        mkCategories.add(new Category("Presente", "5", "60"));
+        mkCategories.add(new Category("Deporte", "3", "100"));
+        mkCategories.add(new Category("Informatica", "0", "0"));
+        mkCategories.add(new Category("Gramática", "4", "50"));
     }
 
     private ArrayAdapter<String> updateAdapter(){
@@ -132,6 +140,19 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         return adapter2;
+    }
+
+    private void checkCourses(){
+
+        // checkCourses()
+        // En caso de que la conexión con el servidor LipeRMI falle, este metodo instanciaría el
+        // ArrayList pero sin valores. Permitiendo asi abrir la app en "MODO OFFLINE"
+
+        if (Data.arrayCourses == null){
+            System.out.println("ARRAY NULL");
+            Data.arrayCourses = new ArrayList<>();
+        }
+
     }
 
 }

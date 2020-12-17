@@ -4,11 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.duolingo.app.R;
+import com.duolingo.app.models.Exercice;
 import com.duolingo.app.utils.ExerciceActivity;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -59,10 +61,17 @@ public class TipusTestExActivity extends AppCompatActivity {
         // getData()
         // Método (mockUp) donde obtiene la información necesaria para este ejercicio.
 
-        String[] rawData = {"Mi gato es negro", "My cat is black", "Black is the cat", "The cat as black"};
-        tvStatement.setText(rawData[0]);
-        arrayAnswers = new String[] {rawData[1], rawData[2], rawData[3]};
-        answer = rawData[1];
+        ProgressBar progressBar = findViewById(R.id.progressBar);
+        progressBar.setMax(ExerciceActivity.arrayExercices.size());
+        progressBar.setProgress(ExerciceActivity.exIndex);
+
+        if (getIntent().getExtras() != null){
+            Exercice rawData = (Exercice) getIntent().getSerializableExtra("data");
+            // String[] rawData = {"Mi gato es negro", "My cat is black", "Black is the cat", "The cat as black"};
+            tvStatement.setText(rawData.getExStatement());
+            arrayAnswers = new String[] {rawData.getWord1(), rawData.getWord2(), rawData.getWord3()};
+            answer = rawData.getWord1();
+        }
 
     }
 
@@ -132,14 +141,14 @@ public class TipusTestExActivity extends AppCompatActivity {
         // del boton seleccionado.
 
         // Fondo de los botones. Primero cambia todos los fondos al mismo
-        btAnswer1.setBackgroundResource(R.drawable.spinner_layout);
-        btAnswer2.setBackgroundResource(R.drawable.spinner_layout);
-        btAnswer3.setBackgroundResource(R.drawable.spinner_layout);
+        btAnswer1.setBackgroundResource(R.drawable.answer_layout);
+        btAnswer2.setBackgroundResource(R.drawable.answer_layout);
+        btAnswer3.setBackgroundResource(R.drawable.answer_layout);
 
         btCheck.setEnabled(true);
 
         // Luego cambia el fondo al botón marcado para diferenciarlo.
-        pressedButton.setBackgroundColor(Color.parseColor("#767676"));
+        pressedButton.setBackgroundResource(R.drawable.next_layout);
 
         return (String) pressedButton.getText();
 
@@ -152,68 +161,43 @@ public class TipusTestExActivity extends AppCompatActivity {
         // answer. Si coincide habilita el botón btNext y muestra una SnackBar, donde al presionar ambas
         // avanza al siguiente nivel.
 
-        // Si la respuesta es incorrecta, marca el botón de rojo.
-
         btCheck.setEnabled(false);
         btAnswer1.setEnabled(false);
         btAnswer2.setEnabled(false);
         btAnswer3.setEnabled(false);
 
+        String msg = "";
         if (selectedButtonText.equals(answer)){
             ExerciceActivity.totalMoney += exTypeCoins;
             ExerciceActivity.totalPoints += exTypePoints;
-
-            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Correcte! .Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-                    }
-                });
-                snackbar.show();
-            }else{
-                Snackbar snackbar = Snackbar.make(v, "Correcto!", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-
-
-                    }
-                });
-                snackbar.show();
-            }
-
+            msg = "OK! ";
 
         }else{
             ExerciceActivity.hasFailed = true;
-            if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
-                Snackbar snackbar = Snackbar.make(v, "Error... Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
-                    }
-                });
-                snackbar.show();
-            }else{
-                Snackbar snackbar = Snackbar.make(v, "Incorrecto...", Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
-                    public void onClick(View view) {
-                        ExerciceActivity e = new ExerciceActivity();
-                        e.nextExercice(getApplicationContext());
-                        finish();
+            msg = "ERROR... ";
+        }
 
-                    }
-                });
-                snackbar.show();
+        // Si es el ultimo nivel
+        if (ExerciceActivity.exIndex == ExerciceActivity.arrayExercices.size()){
+            msg = msg + "Puntos obtenidos : ["+ExerciceActivity.totalPoints+"] -- Monedas obtenidas: ["+ExerciceActivity.totalPoints+"]";
+            // Si hasFailed es FALSE
+            if (!ExerciceActivity.hasFailed){
+                msg = msg + " [+150 BONUS]";
             }
         }
+
+        // Mostra SNACKBAR
+        Snackbar snackbar = Snackbar.make(v, msg, Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction(R.string.snack_next, new View.OnClickListener(){
+            public void onClick(View view) {
+                ExerciceActivity e = new ExerciceActivity();
+                e.nextExercice(getApplicationContext());
+                finish();
+            }
+        });
+
+        snackbar.setActionTextColor(Color.parseColor("#cb2cc6"));
+        snackbar.show();
     }
 
     @Override
