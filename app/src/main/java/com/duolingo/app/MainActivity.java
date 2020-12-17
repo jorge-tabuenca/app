@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity {
 
                 // originLang = Idioma base de la APP
                 // ej. Castellano == ID: 1
-                short mkOriginLang = 1;
+                short mkOriginLang = 51;
                 Data.arrayCourses = testService.getResponse(mkOriginLang);
                 client.close();
 
