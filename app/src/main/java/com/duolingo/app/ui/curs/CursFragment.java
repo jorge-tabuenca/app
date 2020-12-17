@@ -9,23 +9,23 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.duolingo.app.Data;
 import com.duolingo.app.R;
 import com.duolingo.app.adapters.CategoriesAdapter;
 import com.duolingo.app.models.Category;
-import com.duolingo.app.models.Language;
-import com.duolingo.app.tasks.TaskActivity;
+import com.duolingo.app.utils.Data;
+import com.duolingo.app.utils.ExerciceActivity;
 
 import java.util.ArrayList;
 
 public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteListener{
 
-    static private ArrayList<String> listSelectedCourses = new ArrayList<String>();
+    private static ArrayList<String> listSelectedCourses = new ArrayList<String>();
     private ArrayList<Category> mkCategories = new ArrayList<Category>();
 
     public View onCreateView(LayoutInflater inflater,ViewGroup container, Bundle savedInstanceState){
@@ -33,6 +33,16 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
         View view;
         view = inflater.inflate(R.layout.fragment_curs, container, false);
 
+        checkCourses();
+
+        TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
+
+        if (Data.userName.isEmpty()){
+            tvTitle.setText("Buholingo!");
+        }else{
+            tvTitle.setText("Hola, "+Data.userName);
+
+        }
 
         // Spinner con los cursos donde el usuario se ha inscrito, su contenido irá variando a medida
         // de que el usuario se inscribe a más puntos.
@@ -106,21 +116,21 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
     @Override
     public void onNoteClick(int position) {
         mkCategories.get(position);
-        Intent intent = new Intent(getContext(), TaskActivity.class);
+        Intent intent = new Intent(getContext(), ExerciceActivity.class);
         startActivity(intent);
     }
 
     private void initCategories(){
-        mkCategories.add(new Category("Patatas", "1", "20"));
-        mkCategories.add(new Category("Verduras", "5", "60"));
-        mkCategories.add(new Category("Cochecitos", "3", "100"));
-        mkCategories.add(new Category("Marcs", "0", "0"));
-        mkCategories.add(new Category("Pablitos", "4", "50"));
-        mkCategories.add(new Category("Patatas", "1", "20"));
-        mkCategories.add(new Category("Verduras", "5", "60"));
-        mkCategories.add(new Category("Cochecitos", "3", "100"));
-        mkCategories.add(new Category("Marcs", "0", "0"));
-        mkCategories.add(new Category("Pablitos", "4", "50"));
+        mkCategories.add(new Category("Familia", "1", "20"));
+        mkCategories.add(new Category("Animales", "5", "60"));
+        mkCategories.add(new Category("Comidas", "3", "100"));
+        mkCategories.add(new Category("Vehiculos", "0", "0"));
+        mkCategories.add(new Category("Sustantivos", "4", "50"));
+        mkCategories.add(new Category("Verbos", "1", "20"));
+        mkCategories.add(new Category("Presente", "5", "60"));
+        mkCategories.add(new Category("Deporte", "3", "100"));
+        mkCategories.add(new Category("Informatica", "0", "0"));
+        mkCategories.add(new Category("Gramática", "4", "50"));
     }
 
     private ArrayAdapter<String> updateAdapter(){
@@ -130,6 +140,19 @@ public class CursFragment extends Fragment implements CategoriesAdapter.OnNoteLi
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         return adapter2;
+    }
+
+    private void checkCourses(){
+
+        // checkCourses()
+        // En caso de que la conexión con el servidor LipeRMI falle, este metodo instanciaría el
+        // ArrayList pero sin valores. Permitiendo asi abrir la app en "MODO OFFLINE"
+
+        if (Data.arrayCourses == null){
+            System.out.println("ARRAY NULL");
+            Data.arrayCourses = new ArrayList<>();
+        }
+
     }
 
 }
